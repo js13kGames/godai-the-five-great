@@ -2,6 +2,7 @@ function PlayScene(game) {
     this._game = game;
     
     this._time = new Time(this, {hours: 6, minutes: 15});
+    this._distance = new Distance();
 }
 
 PlayScene.prototype._checkDaysLeft = function() {
@@ -20,6 +21,7 @@ PlayScene.prototype.mouseClick = function() {
 
 PlayScene.prototype.draw = function(ctx) {
     this._time.draw(ctx);
+    this._distance.draw(ctx);
 };
 
 PlayScene.prototype.tick = function() {
