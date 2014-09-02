@@ -19,7 +19,7 @@ Game.prototype.mouseClick = function() {
 };
 
 Game.prototype.tick = function() {
-    
+    this._scene.tick();
 };
 
 Game.prototype.draw = function(ctx) {
