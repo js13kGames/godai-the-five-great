@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Godai demo app</title>
+
+    <script src="src/Globals.js"></script>
+    
+    <script src="src/Keyboard.js"></script>
+    <script src="src/PlayScene.js"></script>
+    <script src="src/StartupScene.js"></script>
+    <script src="src/Game.js"></script>
+    <script src="src/GameRunner.js"></script>
+    
+    <script src="lib/Stats.js"></script>
+    <script src="src/FPSCounter.js"></script>
+  
+    <script type="text/javascript">
+    window.onload = function () {
+        var gameRunner = new GameRunner();
+        gameRunner.run();
+    };
+    </script>
+</head>
+
+<body>
+</body>
+</html>
