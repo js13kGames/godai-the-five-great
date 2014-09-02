@@ -8,6 +8,10 @@ StartupScene.prototype.keyPressed = function (key) {
     }
 };
 
+StartupScene.prototype.mouseClick = function() {
+    this._game.setScene(new PlayScene(this._game));
+};
+
 StartupScene.prototype._clearCanvas = function(ctx) {
     ctx.fillStyle = "rgb(255, 255, 255)";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);

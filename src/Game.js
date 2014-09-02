@@ -14,6 +14,10 @@ Game.prototype.keyPressed = function(key) {
     this._scene.keyPressed(key);
 };
 
+Game.prototype.mouseClick = function() {
+    this._scene.mouseClick();
+};
+
 Game.prototype.tick = function() {
     
 };

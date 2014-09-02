@@ -7,6 +7,7 @@ function GameRunner() {
     this._fpsCounter = new FPSCounter();
     this._game = new Game();
     this._keyboard = new Keyboard(this._game);
+    this._mouse = new Mouse(this._game);
 }
 
 GameRunner.prototype._createCanvasContext = function() {
@@ -29,6 +30,7 @@ GameRunner.prototype._gameLoop = function() {
     this._fpsCounter.begin();
     
     this._keyboard.handleKeypresses();
+    this._mouse.handleMouseclicks();
     this._game.tick();
     
     this._clearCanvas();
