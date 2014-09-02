@@ -41,5 +41,9 @@ GameRunner.prototype._gameLoop = function() {
 
 GameRunner.prototype.run = function() {
     var that = this;
-    setInterval(function() { that._gameLoop(); }, 1000 / FPS);
+    //setInterval(function() { that._gameLoop(); }, 1000 / FPS);
+    (function loop(){
+      that._gameLoop();
+      requestAnimFrame(loop, that);
+    })();
 };
