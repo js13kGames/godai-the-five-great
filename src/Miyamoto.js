@@ -1,7 +1,11 @@
-var REST_RECOVER_PER_Q  = 0.02;
-var HUNGER_PER_Q = 0.025;
-var WALK_DISTANCE_PER_Q = 0.02;
-var WALK_COST_PER_Q     = 0.2;
+var REST_RECOVER_PER_Q      = 0.02;
+var HUNGER_PER_Q            = 0.025;
+var WALK_DISTANCE_PER_Q     = 0.02;
+var WALK_COST_PER_Q         = 0.2;
+var HUNT_CHANCE_INC_PER_Q   = 0.33;
+var HUNT_COST_PER_Q         = 0.1;
+
+var SPIRIT_INCREASE_PER_Q = 0.2;
 
 var fatigueStates = [
     "restful",
@@ -19,11 +23,11 @@ var hungerStates = [
     "pain"
 ];
 
-var RESTING     = 0;
-var WALKING     = 1;
-var HUNTING     = 2;
-var FEEDING     = 3;
-var MEDITATE    = 4;
+var RESTING     = "RESTING";
+var WALKING     = "WALKING";
+var HUNTING     = "HUNTING";
+var FEEDING     = "FEEDING";
+var MEDITATE    = "MEDITATING";
 
 var states = [
     {
@@ -55,12 +59,15 @@ function Miyamoto(scene) {
     this._states = states;
     this._stateIndexes = {};
     this._currentState = RESTING;
+    this._lastState = RESTING;
     for (var i=0, l=states.length; i<l; i++) {
         this._stateIndexes[this._states[i].name] = i;
         if (this._states[i].initial) {
             this._currentState = this._states[i];
         }
     }
+    
+    this._chanceToHuntSomething = 0;
     
     this._life = 99;
     this._spirit = 0;
@@ -76,8 +83,14 @@ Miyamoto.prototype.getState = function() {
 Miyamoto.prototype.changeStateTo = function(state) {
     for (var i=0, l=states.length; i<l; i++) {
         if (this._states[i].name == state) {
-            this._currentState = this._states[i];
-            console.log("Changing Miyamoto state to ", state);
+            this._lastState = this._currentState;
+            if (this._lastState.name == HUNTING) {
+                this._currentState = this._states[this._stateIndexes[RESTING]];
+                this._resolveHunting();
+            } else {
+                this._currentState = this._states[i];
+            }
+            console.log("Changing Miyamoto state to ", this._currentState.name, " - Last state:", this._lastState.name);
             return true;
         }
     }
@@ -92,6 +105,58 @@ Miyamoto.prototype._rest = function() {
 Miyamoto.prototype._walk = function() {
     this._scene.getDistance().coverDistance(WALK_DISTANCE_PER_Q);
     this._fatigue += WALK_COST_PER_Q;
+};
+
+Miyamoto.prototype._resolveHunting = function() {
+    console.log("resolve Hunting?");
+    if (this._currentState != HUNTING) {
+        var ch = this._chanceToHuntSomething;
+        console.log("Chance to hunt something: ", ch);
+        var huntResult = Math.random() * 100;
+        switch (true) {
+            case huntResult < (ch/4):
+                this._supplies += 1;
+                break;
+                
+            case huntResult >= (ch/4) && huntResult < (ch/2):
+                this._supplies += 2;
+                break;
+                
+            case huntResult >= (ch/2) && huntResult < (3*ch/4):
+                this._supplies += 3;
+                break;
+                
+            case huntResult >= (3*ch/4) && huntResult < ch:
+                this._supplies += 4;
+                break;
+                
+            default:
+                console.log("Bad luck hunting!");
+                break;
+        }
+        
+        this._chanceToHuntSomething = 0;
+    }
+};
+
+Miyamoto.prototype._hunt = function() {
+    if (this._lastState.name != HUNTING) {
+        this._chanceToHuntSomething += HUNT_CHANCE_INC_PER_Q;
+        this._fatigue += HUNT_COST_PER_Q;
+        if (this._chanceToHuntSomething >= 80) {
+            this.changeStateTo(RESTING);
+        }
+    } else {
+        this.changeStateTo(RESTING);
+    }
+};
+
+Miyamoto.prototype._feed = function() {
+    
+};
+
+Miyamoto.prototype._meditate = function() {
+    this._spirit += SPIRIT_INCREASE_PER_Q;
 };
 
 Miyamoto.prototype._increaseHunger = function() {
@@ -176,6 +241,18 @@ Miyamoto.prototype.tick = function() {
             this._walk();
             break;
             
+        case HUNTING:
+            this._hunt();
+            break;
+            
+        case FEEDING:
+            this._feed();
+            break;
+            
+        case MEDITATE:
+            this._meditate();
+            break;
+            
         default:
             console.log("Miyamoto default state", this._currentState);
             break;
@@ -197,23 +274,29 @@ Miyamoto.prototype._drawStatus = function(ctx) {
     
     var text = "life: " + this._life;
     var x = 20;
-    var y = ctx.canvas.height - 40;
+    var y = ctx.canvas.height - 45;
     ctx.fillText(text, x, y);
     
-    text = "spirit: " + this._spirit;
+    text = "spirit: " + this._spirit.toFixed(1);
     x = 20;
-    y = ctx.canvas.height - 20;
+    y = ctx.canvas.height - 25;
     ctx.fillText(text, x, y);
     
     text = "fatigue: " + this._getPrettyFatigue() + " (" + this._fatigue.toFixed(1) + ")";
     var textWidth = ctx.measureText(text).width;
     x = ctx.canvas.width - 20 - textWidth;
-    y = ctx.canvas.height - 40;
+    y = ctx.canvas.height - 45;
     ctx.fillText(text, x, y);
     
     text = "hunger: " + this._getPrettyHunger() + " (" + this._hunger.toFixed(2) + ")";
     var textWidth = ctx.measureText(text).width;
     x = ctx.canvas.width - 20 - textWidth;
-    y = ctx.canvas.height - 20;
+    y = ctx.canvas.height - 25;
+    ctx.fillText(text, x, y);
+    
+    text = "supplies: " + this._supplies.toFixed(2) + " rations";
+    var textWidth = ctx.measureText(text).width;
+    x = ctx.canvas.width / 2 - textWidth / 2;
+    y = ctx.canvas.height - 5;
     ctx.fillText(text, x, y);
 };
