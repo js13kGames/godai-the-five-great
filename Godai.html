@@ -2,12 +2,15 @@
 <html>
 <head>
   <title>Godai demo app</title>
+    
+    <link rel="stylesheet" type="text/css" href="src/css/sampleUI.css">
 
     <script src="src/Globals.js"></script>
     <script src="lib/shim.js"></script>
     
     <script src="src/Mouse.js"></script>
     <script src="src/Keyboard.js"></script>
+    <script src="src/UI.js"></script>
     
     <script src="src/Miyamoto.js"></script>
     <script src="src/Time.js"></script>
@@ -29,5 +32,38 @@
 </head>
 
 <body style="background-color: #eee;">
+    <div id="canvasHolder"></div>
+    <div id="divUI" style="display:none;">
+        <div>
+            <label for="earth">EARTH</label>
+            <ul id="earth">
+                <li><button type="button" id="rest">Rest</button></li>
+            </ul>
+        </div>
+        <div>
+            <label for="water">WATER</label>
+            <ul id="water">
+                <li><button type="button" id="feed">Feed</button></li>
+            </ul>
+        </div>
+        <div>
+            <label for="fire">FIRE</label>
+            <ul id="fire">
+                <li><button type="button" id="walk">Walk</button></li>
+                <li><button type="button" id="hunt">Hunt</button></li>
+            </ul>
+        </div>
+        <div>
+            <label for="air">AIR</label>
+            <ul id="air">
+                <li><button type="button" id="meditate">Meditate</button></li>
+            </ul>
+        </div>
+        <div>
+            <label for="void">VOID</label>
+            <ul id="void">
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

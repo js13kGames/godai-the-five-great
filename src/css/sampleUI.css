@@ -1,0 +1,15 @@
+#divUI {
+    font-family: 'Lucida Console', Monaco, monospace;
+    font-size: 12;
+}
+
+#divUI div {
+    float: left;
+    width: 125px;
+    border-right: 1px solid #262626;
+    margin-right: 5px;
+}
+
+#divUI div ul {
+    list-style: none;
+}

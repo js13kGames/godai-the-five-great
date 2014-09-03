@@ -16,7 +16,7 @@ GameRunner.prototype._createCanvasContext = function() {
     canvas.setAttribute("id", "canvas");
     canvas.setAttribute("width", CANVAS_WIDTH);
     canvas.setAttribute("height", CANVAS_HEIGHT);
-    document.body.appendChild(canvas);
+    document.getElementById("canvasHolder").appendChild(canvas);
     canvas = document.getElementById("canvas");
     return canvas.getContext("2d");
 };
