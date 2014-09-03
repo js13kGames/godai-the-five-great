@@ -77,9 +77,11 @@ Miyamoto.prototype.changeStateTo = function(state) {
     for (var i=0, l=states.length; i<l; i++) {
         if (this._states[i].name == state) {
             this._currentState = this._states[i];
+            console.log("Changing Miyamoto state to ", state);
             return true;
         }
     }
+    console.log("Miyamoto state not changed!");
     return false;
 };
 

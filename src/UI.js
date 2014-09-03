@@ -11,9 +11,17 @@ UI.prototype._createUI = function() {
 };
 
 UI.prototype._initializeUI = function() {
+    var that = this;
+    
     this._restButton = document.getElementById("rest");
     this._walkButton = document.getElementById("walk");
     
-    this._restButton.onclick = this._scene.getMiyamoto().changeStateTo(RESTING);
-    this._walkButton.onclick = this._scene.getMiyamoto().changeStateTo(WALKING);
+    this._restButton.onclick = function(e) {
+        that._scene.getMiyamoto().changeStateTo(RESTING);
+    };
+    this._walkButton.onclick = function(e) {
+        that._scene.getMiyamoto().changeStateTo(WALKING);
+    };
+        
+    console.log(this._restButton.onclick);
 };
