@@ -1,3 +1,5 @@
+var REST_RECOVER_PER_Q  = 0.02;
+var HUNGER_PER_Q = 0.025;
 var WALK_DISTANCE_PER_Q = 0.02;
 var WALK_COST_PER_Q     = 0.2;
 
@@ -7,6 +9,14 @@ var fatigueStates = [
     "tired",
     "shattered",
     "exhausted"
+];
+
+var hungerStates = [
+    "satiated",
+    "light appetite",
+    "appetite",
+    "hunger",
+    "pain"
 ];
 
 var RESTING     = 0;
@@ -73,9 +83,17 @@ Miyamoto.prototype.changeStateTo = function(state) {
     return false;
 };
 
+Miyamoto.prototype._rest = function() {
+    this._fatigue -= REST_RECOVER_PER_Q;
+};
+
 Miyamoto.prototype._walk = function() {
     this._scene.getDistance().coverDistance(WALK_DISTANCE_PER_Q);
     this._fatigue += WALK_COST_PER_Q;
+};
+
+Miyamoto.prototype._increaseHunger = function() {
+    this._hunger += HUNGER_PER_Q;
 };
 
 Miyamoto.prototype._getPrettyFatigue = function() {
@@ -112,16 +130,57 @@ Miyamoto.prototype._getPrettyFatigue = function() {
     return fatigueStates[result];
 };
 
+Miyamoto.prototype._getPrettyHunger = function() {
+    var h = this._hunger;
+    var result = 0;
+    switch (true) {
+        case h < 0:
+            this._hunger = 0;
+            result = 0;
+            break;
+        case h>= 0 && h < 20:
+            result = 0;
+            break;
+        case h>=20 && h < 40:
+            result = 1;
+            break;
+        case h>=40 && h < 60:
+            result = 2;
+            break;
+        case h>=60 && h < 80:
+            result = 3;
+            break;
+        case h>=80 && h < 99:
+            result = 4;
+            break;
+        case h>=99:
+            this._hunger = 99;
+            result = 4;
+            break;
+        default:
+            console.log("Miyamoto default hunger", this._hunger);
+            break;
+    }
+    return hungerStates[result];
+};
+
 Miyamoto.prototype.tick = function() {
-    var that = this;
     switch (this._currentState.name) {
+        case RESTING:
+            this._rest();
+            break;
+            
         case WALKING:
-            that._walk();
+            this._walk();
             break;
             
         default:
             console.log("Miyamoto default state", this._currentState);
             break;
+    }
+    
+    if (this._currentState != FEEDING) {
+        this._increaseHunger();
     }
 };
 
@@ -144,13 +203,13 @@ Miyamoto.prototype._drawStatus = function(ctx) {
     y = ctx.canvas.height - 20;
     ctx.fillText(text, x, y);
     
-    text = "fatigue: " + this._getPrettyFatigue();
+    text = "fatigue: " + this._getPrettyFatigue() + " (" + this._fatigue.toFixed(1) + ")";
     var textWidth = ctx.measureText(text).width;
     x = ctx.canvas.width - 20 - textWidth;
     y = ctx.canvas.height - 40;
     ctx.fillText(text, x, y);
     
-    text = "hunger: " + this._hunger;
+    text = "hunger: " + this._getPrettyHunger() + " (" + this._hunger.toFixed(2) + ")";
     var textWidth = ctx.measureText(text).width;
     x = ctx.canvas.width - 20 - textWidth;
     y = ctx.canvas.height - 20;
