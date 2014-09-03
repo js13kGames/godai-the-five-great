@@ -48,6 +48,8 @@ Time.prototype.tick = function() {
     if (this._count >= 60) {
         this._count = 0;
         this._seconds++;
+        
+        this._scene.getMiyamoto().tick();
     }
     if (this._seconds >= MINUTE_SECOND) {
         this._seconds = 0;
