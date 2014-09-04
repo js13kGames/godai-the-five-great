@@ -6,6 +6,7 @@ var HUNT_CHANCE_INC_PER_Q   = 0.33;
 var HUNT_COST_PER_Q         = 0.1;
 var FEED_RATION_COST_PER_Q  = 0.025;
 var FEED_RECOVER_PER_Q      = 0.25;
+var MEDITATE_COST_PER_Q     = 0.005;
 
 var SPIRIT_INCREASE_PER_Q = 0.2;
 
@@ -171,8 +172,18 @@ Miyamoto.prototype._feed = function() {
     this._checkHungerLimits();
 };
 
+Miyamoto.prototype._checkSpiritLimits = function() {
+    if (this._spirit >= 99) {
+        console.log("TO-DO: Gained SPIRITUAL level!!");
+        this._spirit = 0;
+    };
+};
+
 Miyamoto.prototype._meditate = function() {
     this._spirit += SPIRIT_INCREASE_PER_Q;
+    this._fatigue += MEDITATE_COST_PER_Q;
+    
+    this._checkSpiritLimits();
 };
 
 Miyamoto.prototype._increaseHunger = function() {
