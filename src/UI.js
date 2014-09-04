@@ -16,7 +16,7 @@ UI.prototype._initializeUI = function() {
     this._restButton = document.getElementById("rest");
     this._walkButton = document.getElementById("walk");
     this._huntingButton = document.getElementById("hunt");
-    
+    this._feedButton = document.getElementById("feed");
     this._meditateButton= document.getElementById("meditate");
     
     this._restButton.onclick = function(e) {
@@ -27,6 +27,10 @@ UI.prototype._initializeUI = function() {
     };
     this._huntingButton.onclick = function(e) {
         that._scene.getMiyamoto().changeStateTo(HUNTING);  
+    };
+    
+    this._feedButton.onclick = function(e) {
+        that._scene.getMiyamoto().changeStateTo(FEEDING);  
     };
     
     this._meditateButton.onclick = function(e) {

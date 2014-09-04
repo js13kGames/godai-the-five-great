@@ -4,6 +4,8 @@ var WALK_DISTANCE_PER_Q     = 0.02;
 var WALK_COST_PER_Q         = 0.2;
 var HUNT_CHANCE_INC_PER_Q   = 0.33;
 var HUNT_COST_PER_Q         = 0.1;
+var FEED_RATION_COST_PER_Q  = 0.025;
+var FEED_RECOVER_PER_Q      = 0.25;
 
 var SPIRIT_INCREASE_PER_Q = 0.2;
 
@@ -151,8 +153,22 @@ Miyamoto.prototype._hunt = function() {
     }
 };
 
+Miyamoto.prototype._checkHungerLimits = function() {
+    if (this._hunger <= 0) {
+        this._hunger = 0;
+        this.changeStateTo(RESTING);
+    }
+    if (this._supplies <= 0) {
+        this._supplies = 0;
+        this.changeStateTo(HUNTING);
+    }
+};
+
 Miyamoto.prototype._feed = function() {
+    this._hunger -= FEED_RECOVER_PER_Q;
+    this._supplies -= FEED_RATION_COST_PER_Q;
     
+    this._checkHungerLimits();
 };
 
 Miyamoto.prototype._meditate = function() {
@@ -258,7 +274,7 @@ Miyamoto.prototype.tick = function() {
             break;
     }
     
-    if (this._currentState != FEEDING) {
+    if (this._currentState.name != FEEDING) {
         this._increaseHunger();
     }
 };
