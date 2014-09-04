@@ -38,6 +38,7 @@ PlayScene.prototype.draw = function(ctx) {
 PlayScene.prototype.tick = function() {
     this._time.tick();
     this._ui.tick();
+    this._miyamoto.tick();
     
     this._checkDaysLeft();
 };

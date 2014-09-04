@@ -299,4 +299,10 @@ Miyamoto.prototype._drawStatus = function(ctx) {
     x = ctx.canvas.width / 2 - textWidth / 2;
     y = ctx.canvas.height - 5;
     ctx.fillText(text, x, y);
+    
+    text = "cth: " + this._chanceToHuntSomething.toFixed(2);
+    var textWidth = ctx.measureText(text).width;
+    x = ctx.canvas.width - 50 - textWidth / 2;
+    y = ctx.canvas.height - 5;
+    ctx.fillText(text, x, y);
 };
