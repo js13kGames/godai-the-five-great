@@ -4,6 +4,7 @@ function PlayScene(game) {
     this._time = new Time(this, {hours: 6, minutes: 15});
     this._distance = new Distance();
     this._miyamoto = new Miyamoto(this);
+    this._messageWindow = new MessageWindow(this);
     this._ui = new UI(this);
 }
 
@@ -40,12 +41,16 @@ PlayScene.prototype.draw = function(ctx) {
     this._time.draw(ctx);
     this._distance.draw(ctx);
     this._miyamoto.draw(ctx);
+    
+    this._messageWindow.show();
+    this._messageWindow.draw(ctx);
 };
 
 PlayScene.prototype.tick = function() {
     this._time.tick();
     this._ui.tick();
     this._miyamoto.tick();
+    this._messageWindow.tick();
     
     this._checkGameOver();
 };

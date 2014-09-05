@@ -1,4 +1,3 @@
-var FPS = 60;
 var CANVAS_WIDTH = 400;
 var CANVAS_HEIGHT = 300;
 
