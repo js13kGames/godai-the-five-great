@@ -77,13 +77,17 @@ function Miyamoto(scene) {
     
     this._life = 99;
     this._spirit = 0;
-    this._hunger = 75;
+    this._hunger = 0;
     this._fatigue = 0;
     this._supplies = 4;
 }
 
 Miyamoto.prototype.getState = function() {
     return this._currentState.name;
+};
+
+Miyamoto.prototype.getLife = function() {
+    return this._life;
 };
 
 Miyamoto.prototype.changeStateTo = function(state) {

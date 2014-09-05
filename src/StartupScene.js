@@ -1,5 +1,7 @@
 function StartupScene(game) {
     this._game = game;
+    
+    document.getElementById("divUI").style.display = "none";
 }
 
 StartupScene.prototype.keyPressed = function (key) {

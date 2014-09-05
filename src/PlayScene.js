@@ -7,8 +7,11 @@ function PlayScene(game) {
     this._ui = new UI(this);
 }
 
-PlayScene.prototype._checkDaysLeft = function() {
+PlayScene.prototype._checkGameOver = function() {
     if (this._time.getDaysLeft() <= 0) {
+        this._game.setScene(new StartupScene(this._game));
+    }
+    if (this._miyamoto.getLife() <= 0) {
         this._game.setScene(new StartupScene(this._game));
     }
 };
@@ -40,5 +43,5 @@ PlayScene.prototype.tick = function() {
     this._ui.tick();
     this._miyamoto.tick();
     
-    this._checkDaysLeft();
+    this._checkGameOver();
 };
