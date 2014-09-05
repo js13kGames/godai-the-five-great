@@ -208,6 +208,12 @@ Miyamoto.prototype._increaseHunger = function() {
     this._hunger += HUNGER_PER_Q;
 };
 
+Miyamoto.prototype._checkFatigueLimit = function() {
+    if (this._fatigue >= 99) {
+        this.changeStateTo(RESTING);
+    }
+};
+
 Miyamoto.prototype._getPrettyFatigue = function() {
     var f = this._fatigue;
     var result = 0;
@@ -307,6 +313,7 @@ Miyamoto.prototype.tick = function() {
         this._increaseHunger();
     }
     this._checkHungerPainLimit();
+    this._checkFatigueLimit();
 };
 
 Miyamoto.prototype.draw = function(ctx) {
@@ -318,7 +325,7 @@ Miyamoto.prototype._drawStatus = function(ctx) {
     ctx.fillStyle = "rgb(26, 26, 26)";
     ctx.font = "bold 14px 'Lucida Console', Monaco, monospace";
     
-    var text = "life: " + this._life;
+    var text = "life: " + this._life.toFixed(2);
     var x = 20;
     var y = ctx.canvas.height - 45;
     ctx.fillText(text, x, y);
