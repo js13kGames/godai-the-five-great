@@ -8,6 +8,10 @@ function PlayScene(game) {
 }
 
 PlayScene.prototype._checkGameOver = function() {
+    if (this._distance.getDistance() <= 0) {
+        this._game.setScene(new WinScene(this._game));
+    }
+    
     if (this._time.getDaysLeft() <= 0) {
         this._game.setScene(new StartupScene(this._game));
     }

@@ -7,10 +7,9 @@ var WALK_COST_PER_Q         = 0.2;
 var HUNT_CHANCE_INC_PER_Q   = 0.33;
 var HUNT_COST_PER_Q         = 0.1;
 var FEED_RATION_COST_PER_Q  = 0.025;
-var FEED_RECOVER_PER_Q      = 0.25;
+var FEED_RECOVER_PER_Q      = 0.5;
 var MEDITATE_COST_PER_Q     = 0.005;
-
-var SPIRIT_INCREASE_PER_Q = 0.2;
+var SPIRIT_INCREASE_PER_Q   = 0.075;
 
 var fatigueStates = [
     "restful",
