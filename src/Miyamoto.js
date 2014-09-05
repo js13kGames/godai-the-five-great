@@ -1,5 +1,7 @@
 var REST_RECOVER_PER_Q      = 0.02;
 var HUNGER_PER_Q            = 0.025;
+var HUNGER_PAIN_TOLERANCE   = 250;
+var HUNGER_PAIN_DAMAGE      = 1;
 var WALK_DISTANCE_PER_Q     = 0.02;
 var WALK_COST_PER_Q         = 0.2;
 var HUNT_CHANCE_INC_PER_Q   = 0.33;
@@ -71,10 +73,11 @@ function Miyamoto(scene) {
     }
     
     this._chanceToHuntSomething = 0;
+    this._hungerPain = 0;
     
     this._life = 99;
     this._spirit = 0;
-    this._hunger = 0;
+    this._hunger = 75;
     this._fatigue = 0;
     this._supplies = 4;
 }
@@ -154,6 +157,15 @@ Miyamoto.prototype._hunt = function() {
     }
 };
 
+Miyamoto.prototype._hungerPainDecreasesLife = function() {
+    this._hungerPain += this._hunger - 80;
+    if (this._hungerPain >= HUNGER_PAIN_TOLERANCE) {
+        this._hungerPain = 0;
+        this._life -= HUNGER_PAIN_DAMAGE * Math.random();
+        console.log("OUCH!");
+    }
+};
+
 Miyamoto.prototype._checkHungerLimits = function() {
     if (this._hunger <= 0) {
         this._hunger = 0;
@@ -162,6 +174,12 @@ Miyamoto.prototype._checkHungerLimits = function() {
     if (this._supplies <= 0) {
         this._supplies = 0;
         this.changeStateTo(HUNTING);
+    }
+};
+
+Miyamoto.prototype._checkHungerPainLimit = function() {    
+    if (this._hunger >= 80) {
+        this._hungerPainDecreasesLife();
     }
 };
 
@@ -288,6 +306,7 @@ Miyamoto.prototype.tick = function() {
     if (this._currentState.name != FEEDING) {
         this._increaseHunger();
     }
+    this._checkHungerPainLimit();
 };
 
 Miyamoto.prototype.draw = function(ctx) {
