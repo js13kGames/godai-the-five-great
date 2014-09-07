@@ -29,6 +29,10 @@ PlayScene.prototype.getDistance = function() {
     return this._distance;
 };
 
+PlayScene.prototype.getMessageWindow = function() {
+    return this._messageWindow;
+};
+
 PlayScene.prototype.keyPressed = function(keys) {
     
 };
