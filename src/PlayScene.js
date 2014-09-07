@@ -1,6 +1,8 @@
 function PlayScene(game) {
     this._game = game;
     
+    this._paused = false;
+    
     this._time = new Time(this, {hours: 6, minutes: 15});
     this._distance = new Distance();
     this._messageWindow = new MessageWindow(this);
@@ -38,7 +40,15 @@ PlayScene.prototype.keyPressed = function(keys) {
 };
 
 PlayScene.prototype.mouseClick = function() {
-    
+    this.play();
+};
+
+PlayScene.prototype.pause = function() {
+    this._paused = true;
+};
+
+PlayScene.prototype.play = function() {
+    this._paused = false;
 };
 
 PlayScene.prototype.draw = function(ctx) {
@@ -51,10 +61,12 @@ PlayScene.prototype.draw = function(ctx) {
 };
 
 PlayScene.prototype.tick = function() {
-    this._time.tick();
-    this._ui.tick();
-    this._miyamoto.tick();
-    this._messageWindow.tick();
-    
-    this._checkGameOver();
+    if (!this._paused) {
+        this._time.tick();
+        this._ui.tick();
+        this._miyamoto.tick();
+        this._messageWindow.tick();
+
+        this._checkGameOver();
+    }
 };
