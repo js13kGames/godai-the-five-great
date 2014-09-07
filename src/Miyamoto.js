@@ -210,6 +210,8 @@ Miyamoto.prototype._checkSpiritLimits = function() {
         this._scene.getMessageWindow().add("Spiritual level gained!");
         this._spirit = 0;
         this._scene.pause();
+        this._scene.hideUI();
+        this._scene.showSpiritualImprovementSelection();
     };
 };
 

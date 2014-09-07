@@ -48,6 +48,16 @@ UI.prototype._checkHuntingState = function() {
     }
 };
 
+UI.prototype.show = function() {
+    var divUI = document.getElementById("divUI");
+    divUI.style.display = "block";
+};
+
+UI.prototype.hide = function() {
+    var divUI = document.getElementById("divUI");
+    divUI.style.display = "none";
+};
+
 UI.prototype.tick = function() {
     this._checkHuntingState();
 };

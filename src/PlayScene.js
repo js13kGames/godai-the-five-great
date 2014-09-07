@@ -8,6 +8,7 @@ function PlayScene(game) {
     this._messageWindow = new MessageWindow(this);
     this._miyamoto = new Miyamoto(this);
     this._ui = new UI(this);
+    this._spiritUI = new SpiritUI(this);
 }
 
 PlayScene.prototype._checkGameOver = function() {
@@ -40,7 +41,19 @@ PlayScene.prototype.keyPressed = function(keys) {
 };
 
 PlayScene.prototype.mouseClick = function() {
-    this.play();
+    
+};
+
+PlayScene.prototype.showSpiritualImprovementSelection = function() {
+    this._spiritUI.show();
+};
+
+PlayScene.prototype.showUI = function() {
+    this._ui.show();
+};
+
+PlayScene.prototype.hideUI = function() {
+    this._ui.hide();
 };
 
 PlayScene.prototype.pause = function() {
