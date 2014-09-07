@@ -69,7 +69,7 @@ function Miyamoto(scene) {
     for (var i=0, l=states.length; i<l; i++) {
         this._stateIndexes[this._states[i].name] = i;
         if (this._states[i].initial) {
-            this._currentState = this._states[i];
+            this.changeStateTo(this._states[i].name);
         }
     }
     
@@ -147,6 +147,7 @@ Miyamoto.prototype._resolveHunting = function() {
                 
             default:
                 console.log("Bad luck hunting!");
+                this._scene.getMessageWindow().add("No rations hunt!");
                 break;
         }
         

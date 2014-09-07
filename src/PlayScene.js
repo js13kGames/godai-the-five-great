@@ -3,8 +3,8 @@ function PlayScene(game) {
     
     this._time = new Time(this, {hours: 6, minutes: 15});
     this._distance = new Distance();
-    this._miyamoto = new Miyamoto(this);
     this._messageWindow = new MessageWindow(this);
+    this._miyamoto = new Miyamoto(this);
     this._ui = new UI(this);
 }
 
