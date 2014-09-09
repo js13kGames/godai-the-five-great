@@ -11,7 +11,17 @@ var FEED_RECOVER_PER_Q      = 0.5;
 var MEDITATE_COST_PER_Q     = 0.005;
 var SPIRIT_INCREASE_PER_Q   = 0.075;
 
-var DEEP_REST_FACTOR        = 1.5;
+var RUN_DISTANCE_PER_Q      = 0.01;
+var RUN_COST_PER_Q          = 0.225;
+var MARATHON_DISTANCE_PER_Q = 0.0075;
+var MARATHON_COST_PER_Q     = 0.1;
+
+var HEAL_COST_PER_Q         = 0.025;
+var HEAL_RECOVER_PER_Q      = 0.05;
+
+var DEEP_REST_FACTOR        = 1.25;
+var HEALTH_DIET_FACTOR      = 1.25;
+var STEALTH_HUNTING_FACTOR  = 1.25;
 
 var MSG_HUNGER_DAMAGE       = "Ouch! Damage from hunger suffered.";
 
@@ -39,7 +49,18 @@ var FEEDING     = "FEEDING";
 var MEDITATE    = "MEDITATING";
 
 // EXTRA POWERS
-var DEEP_RESTING = "DEEP RESTING";
+var DEEP_RESTING    = "DEEP RESTING";
+var TRAIN           = "TRAINING";
+var HEALTH_DIET     = "ON HEALTH DIET";
+var PRACTISE        = "PRACTISING";
+var RUN             = "RUNNING";
+var STEALTH_HUNT    = "STEALTH HUNTING";
+var MARATHON        = "RUNNING MARATHON";
+var STUDY           = "STUDING"
+var REST_AND_MUSE   = "RESTING AND MUSING";
+var IMPROVE         = "SEARCHING FOR PERFECTION";
+var HEAL            = "HEALING";
+var FOCUS           = "FOCUSING MIND";
 
 var states = [
     {
@@ -66,6 +87,50 @@ var states = [
     {
         "name": DEEP_RESTING,
         "events": {}
+    },
+    {
+        "name": TRAIN,
+        "events": {}
+    },
+    {
+        "name": HEALTH_DIET,
+        "events": {}
+    },
+    {
+        "name": PRACTISE,
+        "events": {}
+    },
+    {
+        "name": RUN,
+        "events": {}
+    },
+    {
+        "name": STEALTH_HUNT,
+        "events": {}
+    },
+    {
+        "name": MARATHON,
+        "events": {}
+    },
+    {
+        "name": STUDY,
+        "events": {}
+    },
+    {
+        "name": REST_AND_MUSE,
+        "events": {}
+    },
+    {
+        "name": IMPROVE,
+        "events": {}
+    },
+    {
+        "name": HEAL,
+        "events": {}
+    },
+    {
+        "name": FOCUS,
+        "events": {}
     }
 ];
 
@@ -87,7 +152,7 @@ function Miyamoto(scene) {
     this._hungerPain = 0;
     
     this._life = 99;
-    this._spirit = 75;
+    this._spirit = 25;
     this._hunger = 0;
     this._fatigue = 0;
     this._supplies = 4;
@@ -106,6 +171,9 @@ Miyamoto.prototype.changeStateTo = function(state) {
         if (this._states[i].name == state) {
             this._lastState = this._currentState;
             if (this._lastState.name == HUNTING) {
+                this._currentState = this._states[this._stateIndexes[RESTING]];
+                this._resolveHunting();
+            } else if (this._lastState.name == STEALTH_HUNT) {
                 this._currentState = this._states[this._stateIndexes[RESTING]];
                 this._resolveHunting();
             } else {
@@ -132,9 +200,27 @@ Miyamoto.prototype._rest = function(isDeep) {
     }
 };
 
-Miyamoto.prototype._walk = function() {
-    this._scene.getDistance().coverDistance(WALK_DISTANCE_PER_Q);
-    this._fatigue += WALK_COST_PER_Q;
+Miyamoto.prototype._move = function(method) {
+    switch (method) {
+        case "walk":
+            this._scene.getDistance().coverDistance(WALK_DISTANCE_PER_Q);
+            this._fatigue += WALK_COST_PER_Q;
+            break;
+            
+        case "run":
+            this._scene.getDistance().coverDistance(RUN_DISTANCE_PER_Q);
+            this._fatigue += RUN_COST_PER_Q;
+            break;
+            
+        case "marathon":
+            this._scene.getDistance().coverDistance(MARATHON_DISTANCE_PER_Q);
+            this._fatigue += MARATHON_COST_PER_Q;
+            break;
+            
+        default:
+            console.log("Miyamoto doesn't know how to move!");
+            break;
+    }
 };
 
 Miyamoto.prototype._resolveHunting = function() {
@@ -173,10 +259,11 @@ Miyamoto.prototype._resolveHunting = function() {
     }
 };
 
-Miyamoto.prototype._hunt = function() {
-    if (this._lastState.name != HUNTING) {
-        this._chanceToHuntSomething += HUNT_CHANCE_INC_PER_Q;
-        this._fatigue += HUNT_COST_PER_Q;
+Miyamoto.prototype._hunt = function(isStealth) {
+    var factor = (isStealth) ? STEALTH_HUNTING_FACTOR : 1;
+    if (this._lastState.name != HUNTING && this._lastState.name != STEALTH_HUNT ) {
+        this._chanceToHuntSomething += HUNT_CHANCE_INC_PER_Q * factor;
+        this._fatigue += HUNT_COST_PER_Q / factor;
         if (this._chanceToHuntSomething >= 80) {
             this.changeStateTo(RESTING);
         }
@@ -205,7 +292,7 @@ Miyamoto.prototype._checkHungerLimits = function() {
     }
     if (this._supplies <= 0) {
         this._supplies = 0;
-        this.changeStateTo(HUNTING);
+        this.changeStateTo(MEDITATE);
     }
 };
 
@@ -215,16 +302,21 @@ Miyamoto.prototype._checkHungerPainLimit = function() {
     }
 };
 
-Miyamoto.prototype._feed = function() {
-    this._hunger -= FEED_RECOVER_PER_Q;
-    this._supplies -= FEED_RATION_COST_PER_Q;
+Miyamoto.prototype._feed = function(isHealthDiet) {
+    if (isHealthDiet) {
+        this._hunger -= FEED_RECOVER_PER_Q * HEALTH_DIET_FACTOR;
+        this._supplies -= FEED_RATION_COST_PER_Q / HEALTH_DIET_FACTOR;
+    } else {
+        this._hunger -= FEED_RECOVER_PER_Q;
+        this._supplies -= FEED_RATION_COST_PER_Q;
+    }
     
     this._checkHungerLimits();
 };
 
 Miyamoto.prototype._checkSpiritLimits = function() {
     if (this._spirit >= 99) {
-        console.log("TO-DO: Gained SPIRITUAL level!!");
+        console.log("SPIRITUAL level gained!");
         this._scene.getMessageWindow().add("Spiritual level gained!");
         this._spirit = 0;
         this._scene.pause();
@@ -318,6 +410,36 @@ Miyamoto.prototype._getPrettyHunger = function() {
     return hungerStates[result];
 };
 
+Miyamoto.prototype._train = function() {
+    
+};
+
+Miyamoto.prototype._practise = function() {
+    
+};
+
+Miyamoto.prototype._study = function() {
+    
+};
+
+Miyamoto.prototype._improve = function() {
+    
+};
+
+Miyamoto.prototype._heal = function() {
+    this._life += HEAL_RECOVER_PER_Q;
+    this._fatigue += HEAL_COST_PER_Q;
+    
+    if (this._life >= 99) {
+        this._life = 99;
+        this.changeStateTo(RESTING);
+    }
+};
+
+Miyamoto.prototype._focus = function() {
+    
+};
+
 Miyamoto.prototype.tick = function() {
     switch (this._currentState.name) {
         case RESTING:
@@ -325,15 +447,15 @@ Miyamoto.prototype.tick = function() {
             break;
             
         case WALKING:
-            this._walk();
+            this._move("walk");
             break;
             
         case HUNTING:
-            this._hunt();
+            this._hunt(false);
             break;
             
         case FEEDING:
-            this._feed();
+            this._feed(false);
             break;
             
         case MEDITATE:
@@ -342,6 +464,51 @@ Miyamoto.prototype.tick = function() {
             
         case DEEP_RESTING:
             this._rest(true);
+            break;
+            
+        case TRAIN:
+            this._train();
+            break;
+            
+        case HEALTH_DIET:
+            this._feed(true);
+            break;
+            
+        case PRACTISE:
+            this._practise();
+            break;
+            
+        case RUN:
+            this._move("run");
+            break;
+            
+        case STEALTH_HUNT:
+            this._hunt(true);
+            break;
+            
+        case MARATHON:
+            this._move("marathon");
+            break;
+            
+        case STUDY:
+            this._study();
+            break;
+            
+        case REST_AND_MUSE:
+            this._meditate();
+            this._rest(false);
+            break;
+            
+        case IMPROVE:
+            this._improve();
+            break;
+            
+        case HEAL:
+            this._heal();
+            break;
+            
+        case FOCUS:
+            this._focus();
             break;
             
         default:

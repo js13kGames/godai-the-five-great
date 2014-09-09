@@ -1,3 +1,28 @@
+var SPIRITUPGRADES = {
+    "earth": [ 
+        "Deep rest",
+        "Train"
+    ],
+    "water": [
+        "Health diet",
+        "Practise"
+    ],
+    "fire": [
+        "Run",
+        "Stealth hunt",
+        "Marathon",
+        "Study"
+    ],
+    "air": [
+        "Rest and muse",
+        "Improve"
+    ],
+    "void": [
+        "Heal",
+        "Focus"
+    ]
+};
+
 var spiritUpgrades = {
     "earth": [ 
         "Deep rest",
@@ -83,28 +108,56 @@ SpiritUI.prototype._getSpiritUpgrade = function(element) {
     var power = this._spiritUpgrades[element][0];
     this._spiritUpgrades[element].splice(0, 1);
     
-    var li = document.createElement("li");
-    var newBtn = document.createElement("button");
-    newBtn.setAttribute("type", "button");
-    newBtn.setAttribute("id", power);
-    newBtn.innerHTML = power;
-    li.appendChild(newBtn);
-    ulUI.appendChild(li);
-    
-    this._scene.getUI().addNewOption(power);
+    if (power == SPIRITUPGRADES["fire"][1]) {
+        // ----------  "Stealth hunt" special case ---------
+        var huntBtn = document.getElementById("hunt");
+        huntBtn.setAttribute("id", power);
+        huntBtn.innerHTML = power;
+        
+        this._scene.getUI().upgradeHuntingOption();
+    } else {        
+        var li = document.createElement("li");
+        var newBtn = document.createElement("button");
+        newBtn.setAttribute("type", "button");
+        newBtn.setAttribute("id", power);
+        newBtn.innerHTML = power;
+        li.appendChild(newBtn);
+        ulUI.appendChild(li);
+        
+        this._scene.getUI().addNewOption(power);
+    }
     
     this._scene.getMessageWindow().add("Learned '" + power + "' power from " + element);
 };
     
 SpiritUI.prototype._checkAvailableUpgrades = function() {
+    var countUpgrades = 0;
     for (var element in this._spiritUpgrades) {
         if (!this._spiritUpgrades[element].length) {
             var btn = this["_" + element + "Button"];
             if (btn.parentNode.parentNode) {
                 btn.parentNode.parentNode.removeChild(btn.parentNode);
             }
+        } else {
+            countUpgrades++;
         }
     };
+    if (countUpgrades == 0)  {
+        if (!document.getElementById("improvementLimit")) {
+            var that = this;
+            var ul = document.getElementById("improvement");
+            var li = document.createElement("li");
+            var btn = document.createElement("button");
+            btn.setAttribute("id", "improvementLimit");
+            btn.innerHTML = "The Sky is the limit";
+            btn.onclick = function(e) {
+                e.preventDefault();
+                that._hideOptionsAndRelaunchGame(that);
+            }
+            li.appendChild(btn);
+            ul.appendChild(li);
+        }                
+    }
 };
 
 SpiritUI.prototype.show = function() {
