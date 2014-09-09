@@ -91,6 +91,8 @@ SpiritUI.prototype._getSpiritUpgrade = function(element) {
     li.appendChild(newBtn);
     ulUI.appendChild(li);
     
+    this._scene.getUI().addNewOption(power);
+    
     this._scene.getMessageWindow().add("Learned '" + power + "' power from " + element);
 };
     

@@ -36,6 +36,10 @@ PlayScene.prototype.getMessageWindow = function() {
     return this._messageWindow;
 };
 
+PlayScene.prototype.getUI = function() {
+    return this._ui;
+};
+
 PlayScene.prototype.keyPressed = function(keys) {
     
 };

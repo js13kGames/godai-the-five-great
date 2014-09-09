@@ -48,6 +48,22 @@ UI.prototype._checkHuntingState = function() {
     }
 };
 
+UI.prototype.addNewOption = function(power) {
+    var that = this;
+    switch (power) {
+        case "Deep rest":
+            this._deepRestButton = document.getElementById(power);
+            this._deepRestButton.onclick = function(e) {
+                that._scene.getMiyamoto().changeStateTo(DEEP_RESTING);
+            };
+            break;
+            
+        default:
+            console.log("Can't add option to UI!");
+            break;
+    }
+};
+
 UI.prototype.show = function() {
     var divUI = document.getElementById("divUI");
     divUI.style.display = "block";

@@ -11,6 +11,8 @@ var FEED_RECOVER_PER_Q      = 0.5;
 var MEDITATE_COST_PER_Q     = 0.005;
 var SPIRIT_INCREASE_PER_Q   = 0.075;
 
+var DEEP_REST_FACTOR        = 1.5;
+
 var MSG_HUNGER_DAMAGE       = "Ouch! Damage from hunger suffered.";
 
 var fatigueStates = [
@@ -29,11 +31,15 @@ var hungerStates = [
     "pain"
 ];
 
+// STANDARD
 var RESTING     = "RESTING";
 var WALKING     = "WALKING";
 var HUNTING     = "HUNTING";
 var FEEDING     = "FEEDING";
 var MEDITATE    = "MEDITATING";
+
+// EXTRA POWERS
+var DEEP_RESTING = "DEEP RESTING";
 
 var states = [
     {
@@ -55,6 +61,10 @@ var states = [
     },
     {
         "name": MEDITATE,
+        "events": {}
+    },
+    {
+        "name": DEEP_RESTING,
         "events": {}
     }
 ];
@@ -110,8 +120,12 @@ Miyamoto.prototype.changeStateTo = function(state) {
     return false;
 };
 
-Miyamoto.prototype._rest = function() {
-    this._fatigue -= REST_RECOVER_PER_Q;
+Miyamoto.prototype._rest = function(isDeep) {
+    if (isDeep) {
+        this._fatigue -= REST_RECOVER_PER_Q * DEEP_REST_FACTOR;
+    } else {
+        this._fatigue -= REST_RECOVER_PER_Q;
+    }
 };
 
 Miyamoto.prototype._walk = function() {
@@ -303,7 +317,7 @@ Miyamoto.prototype._getPrettyHunger = function() {
 Miyamoto.prototype.tick = function() {
     switch (this._currentState.name) {
         case RESTING:
-            this._rest();
+            this._rest(false);
             break;
             
         case WALKING:
@@ -320,6 +334,10 @@ Miyamoto.prototype.tick = function() {
             
         case MEDITATE:
             this._meditate();
+            break;
+            
+        case DEEP_RESTING:
+            this._rest(true);
             break;
             
         default:
