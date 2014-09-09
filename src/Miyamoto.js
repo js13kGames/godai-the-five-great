@@ -126,6 +126,10 @@ Miyamoto.prototype._rest = function(isDeep) {
     } else {
         this._fatigue -= REST_RECOVER_PER_Q;
     }
+    if (this._fatigue <= 0) {
+        this._fatigue = 0;
+        this.changeStateTo(WALKING);
+    }
 };
 
 Miyamoto.prototype._walk = function() {
