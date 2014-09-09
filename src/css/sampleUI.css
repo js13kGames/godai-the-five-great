@@ -1,22 +1,23 @@
-#divUI {
+#divUI, #divSpirit {
     font-family: 'Lucida Console', Monaco, monospace;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 #divUI div {
     float: left;
-    width: 125px;
+    width: 100px;
     border-right: 1px solid #262626;
     margin-right: 5px;
 }
 
 #divUI div ul {
     list-style: none;
+    margin: 2px 0 0 -40px;
 }
 
-#divSpirit {
+#divUI div ul li button, #divSpirit div ul li button {
     font-family: 'Lucida Console', Monaco, monospace;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 #divSpirit ul {

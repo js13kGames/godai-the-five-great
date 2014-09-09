@@ -77,7 +77,7 @@ function Miyamoto(scene) {
     this._hungerPain = 0;
     
     this._life = 99;
-    this._spirit = 0;
+    this._spirit = 75;
     this._hunger = 0;
     this._fatigue = 0;
     this._supplies = 4;
