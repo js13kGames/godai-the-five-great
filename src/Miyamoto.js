@@ -19,7 +19,7 @@ var MARATHON_COST_PER_Q     = 0.1;
 var HEAL_COST_PER_Q         = 0.025;
 var HEAL_RECOVER_PER_Q      = 0.05;
 
-var DEEP_REST_FACTOR        = 1.25;
+var DEEP_REST_FACTOR        = 1.5;
 var HEALTH_DIET_FACTOR      = 1.25;
 var STEALTH_HUNTING_FACTOR  = 1.25;
 

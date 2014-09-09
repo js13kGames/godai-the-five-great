@@ -9,6 +9,8 @@ function PlayScene(game) {
     this._miyamoto = new Miyamoto(this);
     this._ui = new UI(this);
     this._spiritUI = new SpiritUI(this);
+    this._encounters = new EncounterList(this);
+    this._battleWindow = new BattleWindow(this);
 }
 
 PlayScene.prototype._checkGameOver = function() {

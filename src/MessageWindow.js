@@ -5,14 +5,6 @@ var HEIGHT_FONT                 = 25;
 function MessageWindow(scene) {
     this._scene = scene;
     
-    this._messages = [
-        "Sample message number ONE",
-        "Sample message number TWO",
-        "Sample message number THREE",
-        "Sample message number FOUR",
-        "Sample message number FIVE",
-        "Sample message number SIX"
-    ];
     this._messages = [];
     this._visible = false;
     this._count = 0;
