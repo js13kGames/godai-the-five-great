@@ -1,72 +1,72 @@
 var SWORDSMAN_KNOWLEDGE = [
     {
-        "earth": 2,
-        "water": 1
+        "strength": 2,
+        "technique": 1
     },
     {
-        "earth": 3,
-        "water": 1
+        "strength": 3,
+        "technique": 1
     },
     {
-        "earth": 3,
-        "water": 2
+        "strength": 3,
+        "technique": 2
     },
     {
-        "earth": 3,
-        "water": 2,
-        "fire": 1
+        "strength": 3,
+        "technique": 2,
+        "strategy": 1
     },
     {
-        "earth": 4,
-        "water": 2,
-        "fire": 1
+        "strength": 4,
+        "technique": 2,
+        "strategy": 1
     },
     {
-        "earth": 4,
-        "water": 3,
-        "fire": 1
+        "strength": 4,
+        "technique": 3,
+        "strategy": 1
     },
     {
-        "earth": 4,
-        "water": 3,
-        "fire": 2
+        "strength": 4,
+        "technique": 3,
+        "strategy": 2
     },
     {
-        "earth": 4,
-        "water": 3,
-        "fire": 2,
-        "wind": 1
+        "strength": 4,
+        "technique": 3,
+        "strategy": 2,
+        "perfection": 1
     },
     {
-        "earth": 5,
-        "water": 3,
-        "fire": 2,
-        "wind": 1
+        "strength": 5,
+        "technique": 3,
+        "strategy": 2,
+        "perfection": 1
     },
     {
-        "earth": 5,
-        "water": 4,
-        "fire": 2,
-        "wind": 1
+        "strength": 5,
+        "technique": 4,
+        "strategy": 2,
+        "perfection": 1
     },
     {
-        "earth": 5,
-        "water": 4,
-        "fire": 3,
-        "wind": 1
+        "strength": 5,
+        "technique": 4,
+        "strategy": 3,
+        "perfection": 1
     },
     {
-        "earth": 5,
-        "water": 4,
-        "fire": 3,
-        "wind": 2
+        "strength": 5,
+        "technique": 4,
+        "strategy": 3,
+        "perfection": 2
     },
     {
-        "earth": 5,
-        "water": 4,
-        "fire": 3,
-        "wind": 2,
-        "void": 1
+        "strength": 5,
+        "technique": 4,
+        "strategy": 3,
+        "perfection": 2,
+        "focus": 1
     }
 ];
 

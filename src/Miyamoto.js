@@ -156,6 +156,11 @@ function Miyamoto(scene) {
     this._hunger = 0;
     this._fatigue = 0;
     this._supplies = 4;
+    
+    this._skill = {
+        "strength": 3,
+        "technique": 1
+    };
 }
 
 Miyamoto.prototype.getState = function() {
