@@ -171,6 +171,10 @@ Miyamoto.prototype.getLife = function() {
     return this._life;
 };
 
+Miyamoto.prototype.getSkill = function() {
+    return this._skill;
+};
+
 Miyamoto.prototype.changeStateTo = function(state) {
     for (var i=0, l=states.length; i<l; i++) {
         if (this._states[i].name == state) {

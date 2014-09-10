@@ -78,16 +78,24 @@ BattleWindow.prototype._drawMessages = function(ctx) {
     ctx.fillStyle = "white";
     ctx.font = "bold 12px 'Lucida Console', Monaco, monospace";
 
-    this._drawText("ENCOUNTER!", ctx.canvas.height / 2, ctx, this._fadeBG);
+    this._drawText("ENCOUNTER!", ctx.canvas.height * 0.75, ctx, this._fadeBG);
     
     if (this._showEnemy) {
         this._fadeTxtEnemy = this._count / BATTLEWINDOW_FADEIN_TIME;
         this._drawText("Miyamoto Musashi has run into " + this._encounter.name, 25, ctx, this._fadeTxtEnemy);
         var i = 0;
+        this._drawText("His skills are:", 55, ctx, this._fadeTxtEnemy);
         for (var skill in this._encounter.skill) {
-            this._drawText("His skills are:", 55, ctx, this._fadeTxtEnemy);
             this._drawText(skill + ": " + this._encounter.skill[skill], 70 + i*15, ctx, this._fadeTxtEnemy);
             i++;
+        }
+        
+        this._drawText("Miyamoto Musashi skills are: ", 70 + (i+1)*15, ctx, this._fadeTxtEnemy);
+        var j = 2;
+        var skillMiyamoto = this._scene.getMiyamoto().getSkill();
+        for (var skill in skillMiyamoto) {
+            this._drawText(skill + ": " + skillMiyamoto[skill], 70 + (i+j)*15, ctx, this._fadeTxtEnemy);
+            j++;
         }
         
         if (this._fadeTxtEnemy >= 1) {
@@ -100,7 +108,7 @@ BattleWindow.prototype._drawMessages = function(ctx) {
     
     if (this._showResult) {
         this._fadeTxtResult = (this._count - READING_TIME) / BATTLEWINDOW_FADEIN_TIME;
-        this._drawText("Miyamoto Musashi has defeated his enemy", ctx.canvas.height * 0.75, ctx, this._fadeTxtResult);
+        this._drawText("Miyamoto Musashi has defeated his enemy", ctx.canvas.height * 0.9, ctx, this._fadeTxtResult);
         
         if (this._fadeTxtResult >= 1) {
             this._fadeTxtResult = 1;

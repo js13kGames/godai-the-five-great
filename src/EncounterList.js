@@ -99,16 +99,17 @@ EncounterList.prototype._createEncounterList = function() {
         var selectName = Math.floor(Math.random() * SWORDSMAN_NAMES.length);
         
         var distanceEncounter = distanceLeft / (12 - i);
-        distanceEncounter = Math.random() * distanceEncounter;
+        distanceEncounter = ((Math.random() / 2) + 0.5) * distanceEncounter;
         distanceLeft -= distanceEncounter;
         
         var swordsman = {
             "name": SWORDSMAN_NAMES[selectName],
             "skill": SWORDSMAN_KNOWLEDGE[i],
-            "ri": DISTANCE_LEFT - distanceEncounter
+            "ri": distanceLeft
         };
         SWORDSMAN_NAMES.splice(selectName, 1);
         this._encounters.push(swordsman);
+        console.log(swordsman.name, swordsman.ri);
     }
     var lastSwordsman = {
         "name": "Miyake Gunbei",
