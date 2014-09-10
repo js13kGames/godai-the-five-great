@@ -6,7 +6,7 @@ function Distance(scene) {
     this._distanceLeft = DISTANCE_LEFT;
 }
 
-Distance.prototype.getDistance = function() {
+Distance.prototype.getDistanceLeft = function() {
     return this._distanceLeft;
 };
 

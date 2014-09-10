@@ -12,6 +12,10 @@ BattleWindow.prototype.hide = function(ctx) {
     this._visible = false;
 };
 
+BattleWindow.prototype.launchEncounter = function(encounter) {
+    console.log("TO-DO: launch encounter", encounter);
+};
+
 BattleWindow.prototype._drawWindowBackground = function(ctx) {
     
 }

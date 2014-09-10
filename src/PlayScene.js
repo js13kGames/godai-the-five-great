@@ -13,8 +13,12 @@ function PlayScene(game) {
     this._battleWindow = new BattleWindow(this);
 }
 
+PlayScene.prototype._checkEncounters = function() {
+    this._encounters.checkEncounters();
+};
+
 PlayScene.prototype._checkGameOver = function() {
-    if (this._distance.getDistance() <= 0) {
+    if (this._distance.getDistanceLeft() <= 0) {
         this._game.setScene(new WinScene(this._game));
     }
     
@@ -54,6 +58,12 @@ PlayScene.prototype.showSpiritualImprovementSelection = function() {
     this._spiritUI.show();
 };
 
+PlayScene.prototype.launchBattleWindow = function(encounter) {
+    console.log(encounter);
+    this.pause();
+    this._battleWindow.launchEncounter(encounter);
+};
+
 PlayScene.prototype.showUI = function() {
     this._ui.show();
 };
@@ -77,6 +87,7 @@ PlayScene.prototype.draw = function(ctx) {
     
     this._messageWindow.show();
     this._messageWindow.draw(ctx);
+    this._battleWindow.draw(ctx);
 };
 
 PlayScene.prototype.tick = function() {
@@ -86,6 +97,9 @@ PlayScene.prototype.tick = function() {
         this._miyamoto.tick();
         this._messageWindow.tick();
 
+        this._checkEncounters();
         this._checkGameOver();
+    } else {
+        this._battleWindow.tick();
     }
 };

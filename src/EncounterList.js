@@ -93,18 +93,27 @@ EncounterList.prototype._createEncounterList = function() {
         "Maniwa Nen"
     ];
     
+    var distanceLeft = DISTANCE_LEFT;
+    
     for (var i=0; i<12; i++) {
         var selectName = Math.floor(Math.random() * SWORDSMAN_NAMES.length);
+        
+        var distanceEncounter = distanceLeft / (12 - i);
+        distanceEncounter = Math.random() * distanceEncounter;
+        distanceLeft -= distanceEncounter;
+        
         var swordsman = {
             "name": SWORDSMAN_NAMES[selectName],
-            "skill": SWORDSMAN_KNOWLEDGE[i]
+            "skill": SWORDSMAN_KNOWLEDGE[i],
+            "ri": DISTANCE_LEFT - distanceEncounter
         };
         SWORDSMAN_NAMES.splice(selectName, 1);
         this._encounters.push(swordsman);
     }
     var lastSwordsman = {
         "name": "Miyake Gunbei",
-        "skill": SWORDSMAN_KNOWLEDGE[12]
+        "skill": SWORDSMAN_KNOWLEDGE[12],
+        "ri": 0
     };
     this._encounters.push(lastSwordsman);
 };
@@ -112,3 +121,13 @@ EncounterList.prototype._createEncounterList = function() {
 EncounterList.prototype.getEncounters = function() {
     return this._encounters;
 }
+
+EncounterList.prototype.checkEncounters = function() {
+    if (this._encounters[0]) {
+        var distanceLeft = this._scene.getDistance().getDistanceLeft();
+        if (this._encounters[0].ri >= distanceLeft) {
+            var swordman = this._encounters.splice(0, 1)[0];
+            this._scene.launchBattleWindow(swordman);
+        }
+    }
+};
