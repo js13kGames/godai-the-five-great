@@ -88,7 +88,7 @@ EncounterList.prototype._createEncounterList = function() {
         "Yagyu Munenori",
         "Negishi Shingoro",
         "Nakayama Hakudo",
-        "Chiba Shusaku Narimasa",
+        "Chiba Narimasa",
         "Shinto Munen",
         "Maniwa Nen"
     ];
@@ -109,7 +109,6 @@ EncounterList.prototype._createEncounterList = function() {
         };
         SWORDSMAN_NAMES.splice(selectName, 1);
         this._encounters.push(swordsman);
-        console.log(swordsman.name, swordsman.ri);
     }
     var lastSwordsman = {
         "name": "Miyake Gunbei",

@@ -1,4 +1,4 @@
-var DISTANCE_LEFT = 113; //1 japanese ri (里) = 3927 metres
+var DISTANCE_LEFT = 30; //113; //1 japanese ri (里) = 3927 metres
 
 function Distance(scene) {
     this._scene = scene;
