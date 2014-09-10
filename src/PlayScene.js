@@ -61,6 +61,7 @@ PlayScene.prototype.showSpiritualImprovementSelection = function() {
 PlayScene.prototype.launchBattleWindow = function(encounter) {
     console.log(encounter);
     this.pause();
+    this._ui.hide();
     this._battleWindow.launchEncounter(encounter);
 };
 
