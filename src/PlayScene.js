@@ -85,7 +85,6 @@ PlayScene.prototype.draw = function(ctx) {
     this._distance.draw(ctx);
     this._miyamoto.draw(ctx);
     
-    this._messageWindow.show();
     this._messageWindow.draw(ctx);
     this._battleWindow.draw(ctx);
 };

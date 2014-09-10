@@ -8,6 +8,8 @@ function MessageWindow(scene) {
     this._messages = [];
     this._visible = false;
     this._count = 0;
+    
+    this.show();
 }
 
 MessageWindow.prototype.show = function(ctx) {
