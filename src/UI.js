@@ -47,6 +47,12 @@ UI.prototype._checkHuntingState = function() {
     }
 };
 
+UI.prototype.checkIfTrainButtonsShouldBeEnabled = function(skill) {
+    if (skill["strength"] >= 5) {
+        this._trainButton.setAttribute("disabled", true);
+    }
+};
+
 UI.prototype.addNewOption = function(power) {
     var that = this;
     switch (power) {

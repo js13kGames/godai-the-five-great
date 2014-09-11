@@ -23,6 +23,13 @@ var DEEP_REST_FACTOR        = 1.5;
 var HEALTH_DIET_FACTOR      = 1.25;
 var STEALTH_HUNTING_FACTOR  = 1.25;
 
+var TRAINING_COST_PER_Q     = 0.05;
+var PRACTISING_COST_PER_Q   = 0.075;
+var STUDING_COST_PER_Q      = 0.01;
+var IMPROVING_COST_PER_Q    = 0.0125;
+var FOCUSING_COST_PER_Q     = 0.02;
+var GODAI_INCREASE_PER_Q    = 0.075;
+
 var MSG_HUNGER_DAMAGE       = "Ouch! Damage from hunger suffered.";
 
 var fatigueStates = [
@@ -149,6 +156,12 @@ function Miyamoto(scene) {
     }
     
     this._chanceToHuntSomething = 0;
+    this._training      = 0;
+    this._practising    = 0;
+    this._studing       = 0;
+    this._improving     = 0;
+    this._focusing      = 0;
+    
     this._hungerPain = 0;
     
     this._life = 99;
@@ -420,7 +433,16 @@ Miyamoto.prototype._getPrettyHunger = function() {
 };
 
 Miyamoto.prototype._train = function() {
+    this._training += GODAI_INCREASE_PER_Q;
+    this._fatigue += TRAINING_COST_PER_Q;
     
+    if (this._training >= 99) {
+        this._training = 0;
+        this._skill["strength"] += 1;
+        this._scene.getMessageWindow().add("Miyamoto has now " + this._skill["strength"] + " point(s) of strength");
+        this._scene.getUI().checkIfTrainButtonsShouldBeEnabled(this._skill);
+        this.changeStateTo(RESTING);
+    }
 };
 
 Miyamoto.prototype._practise = function() {
@@ -435,6 +457,10 @@ Miyamoto.prototype._improve = function() {
     
 };
 
+Miyamoto.prototype._focus = function() {
+    
+};
+
 Miyamoto.prototype._heal = function() {
     this._life += HEAL_RECOVER_PER_Q;
     this._fatigue += HEAL_COST_PER_Q;
@@ -443,10 +469,6 @@ Miyamoto.prototype._heal = function() {
         this._life = 99;
         this.changeStateTo(RESTING);
     }
-};
-
-Miyamoto.prototype._focus = function() {
-    
 };
 
 Miyamoto.prototype.tick = function() {
