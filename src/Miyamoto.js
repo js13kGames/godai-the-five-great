@@ -152,7 +152,7 @@ function Miyamoto(scene) {
     this._hungerPain = 0;
     
     this._life = 99;
-    this._spirit = 25;
+    this._spirit = 90;
     this._hunger = 0;
     this._fatigue = 0;
     this._supplies = 4;
@@ -327,7 +327,7 @@ Miyamoto.prototype._checkSpiritLimits = function() {
     if (this._spirit >= 99) {
         console.log("SPIRITUAL level gained!");
         this._scene.getMessageWindow().add("Spiritual level gained!");
-        this._spirit = 0;
+        this._spirit = 90;
         this._scene.pause();
         this._scene.hideUI();
         this._scene.showSpiritualImprovementSelection();

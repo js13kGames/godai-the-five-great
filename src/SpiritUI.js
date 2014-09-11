@@ -103,6 +103,47 @@ SpiritUI.prototype._initializeSpiritUI = function() {
     this._checkAvailableUpgrades();
 };
 
+SpiritUI.prototype._shouldPowerBeDisabled = function(power) {
+    var skill = this._scene.getMiyamoto().getSkill();
+    switch (power) {
+        case SPIRITUPGRADES["earth"][1]:
+            if (skill["strength"] >= 5) {
+                return true;
+            }
+            break;
+            
+        case SPIRITUPGRADES["water"][1]:
+            if (skill["technique"] >= skill["strength"] - 1) {
+                return true;
+            }
+            break;
+            
+        case SPIRITUPGRADES["fire"][3]:
+            if (skill["strategy"] >= skill["technique"] - 1) {
+                return true;
+            }
+            break;
+            
+        case SPIRITUPGRADES["air"][1]:
+            if (!skill["strategy"] || skill["perfection"] >= skill["strategy"] - 1) {
+                return true;
+            }
+            break;
+            
+        case SPIRITUPGRADES["void"][1]:
+            if (!skill["perfection"] || skill["focus"] >= skill["perfection"] - 1) {
+                return true;
+            }
+            break;
+            
+        default:
+            console.log("Default should power be disabled");
+            return false;
+            break;
+    }
+    return false;
+};
+
 SpiritUI.prototype._getSpiritUpgrade = function(element) {
     var ulUI = document.getElementById(element);
     var power = this._spiritUpgrades[element][0];
@@ -120,6 +161,9 @@ SpiritUI.prototype._getSpiritUpgrade = function(element) {
         var newBtn = document.createElement("button");
         newBtn.setAttribute("type", "button");
         newBtn.setAttribute("id", power);
+        if (this._shouldPowerBeDisabled(power)) {
+            newBtn.setAttribute("disabled", true);
+        }
         newBtn.innerHTML = power;
         li.appendChild(newBtn);
         ulUI.appendChild(li);
