@@ -202,7 +202,6 @@ Miyamoto.prototype.changeStateTo = function(state) {
                 this._currentState = this._states[i];
             }
             this._scene.getMessageWindow().add("Miyamoto is " + this._currentState.name);
-            console.log("Changing Miyamoto state to ", this._currentState.name, " - Last state:", this._lastState.name);
             return true;
         }
     }
@@ -248,7 +247,6 @@ Miyamoto.prototype._move = function(method) {
 Miyamoto.prototype._resolveHunting = function() {
     if (this._currentState != HUNTING) {
         var ch = this._chanceToHuntSomething;
-        console.log("Chance to hunt something: ", ch);
         var huntResult = Math.random() * 100;
         switch (true) {
             case huntResult < (ch/4):
@@ -272,7 +270,6 @@ Miyamoto.prototype._resolveHunting = function() {
                 break;
                 
             default:
-                console.log("Bad luck hunting!");
                 this._scene.getMessageWindow().add("No rations hunt!");
                 break;
         }
@@ -299,7 +296,6 @@ Miyamoto.prototype._hungerPainDecreasesLife = function() {
     if (this._hungerPain >= HUNGER_PAIN_TOLERANCE) {
         this._hungerPain = 0;
         this._life -= HUNGER_PAIN_DAMAGE * Math.random();
-        console.log("OUCH!");
         var msgNumber = this._scene.getMessageWindow().getMessagesNumber();
         if (msgNumber < 6 || this._scene.getMessageWindow().getMessage(msgNumber - 1) != MSG_HUNGER_DAMAGE) {
             this._scene.getMessageWindow().add(MSG_HUNGER_DAMAGE);
@@ -338,7 +334,6 @@ Miyamoto.prototype._feed = function(isHealthDiet) {
 
 Miyamoto.prototype._checkSpiritLimits = function() {
     if (this._spirit >= 99) {
-        console.log("SPIRITUAL level gained!");
         this._scene.getMessageWindow().add("Spiritual level gained!");
         this._spirit = 90;
         this._scene.pause();
