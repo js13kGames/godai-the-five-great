@@ -48,10 +48,11 @@ MessageWindow.prototype._drawWindowBackground = function(ctx) {
         ctx.fillStyle = "rgba(26, 26, 26, " + (0.3 - fade) + ")";
         
         var l = Math.min(5, this._messages.length-1);
+        if (l == 5) offY = 0;
         var h = (l+1) * HEIGHT_FONT + 15 - offY;
         var x = ctx.canvas.width / 10;
         var y = ctx.canvas.height / 2 - h / 2;
-        ctx.fillRect(x, y, x*8, h);
+        ctx.fillRect(x, y, x*8, h);    
     }
 }
 
@@ -73,7 +74,6 @@ MessageWindow.prototype._drawMessages = function(ctx) {
         ctx.fillText(text, x, y);
     }
     
-    
     ctx.fillStyle = "white";
     for (var index = 1; index <= l; index++) {
         text = this._messages[index];
@@ -81,6 +81,12 @@ MessageWindow.prototype._drawMessages = function(ctx) {
         x = ctx.canvas.width / 2 - textWidth / 2;
         y = ctx.canvas.height / 2 - h / 2 + (HEIGHT_FONT * index) - offY/2 ;
         ctx.fillText(text, x, y);
+    }
+    
+    if (this._messages.length > 6) {
+        x = 9 * ctx.canvas.width / 10 - 20;
+        y = 1.82 * h;
+        ctx.fillText("+" + (this._messages.length - 6), x, y);
     }
 };
 

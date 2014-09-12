@@ -98,8 +98,10 @@ BattleWindow.prototype._drawMessages = function(ctx) {
         this._drawText("Miyamoto Musashi skills are: ", 70 + (i+1)*15, ctx, this._fadeTxtEnemy);
         var j = 2;
         for (var skill in this._skillMiyamoto) {
-            this._drawText(skill + ": " + this._skillMiyamoto[skill], 70 + (i+j)*15, ctx, this._fadeTxtEnemy);
-            j++;
+            if (this._skillMiyamoto[skill]) {
+                this._drawText(skill + ": " + this._skillMiyamoto[skill], 70 + (i+j)*15, ctx, this._fadeTxtEnemy);
+                j++;
+            }
         }
         
         if (this._fadeTxtEnemy >= 1) {
@@ -185,6 +187,8 @@ BattleWindow.prototype._calculateEncounterResult = function() {
         result.text = "Miyamoto defeated " + this._encounter.name + " in " + movements + " movements";
         if (damageSuffered > 0) {
             result.text2 = "but suffered " + damageSuffered.toFixed(0) + " damage point(s)";
+        } else {
+            result.text2 = "in a masterly way";
         }
     } else {
         result.text = this._encounter.name + " has defeated Miyamoto Musashi";
