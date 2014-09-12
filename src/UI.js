@@ -48,8 +48,26 @@ UI.prototype._checkHuntingState = function() {
 };
 
 UI.prototype.checkIfTrainButtonsShouldBeEnabled = function(skill) {
+    if (this._trainButton)      this._trainButton.removeAttribute("disabled");
+    if (this._practiseButton)   this._practiseButton.removeAttribute("disabled");
+    if (this._studyButton)      this._studyButton.removeAttribute("disabled");
+    if (this._improveButton)    this._improveButton.removeAttribute("disabled");
+    if (this._focusButton)      this._focusButton.removeAttribute("disabled");
+    
     if (skill["strength"] >= 5) {
         this._trainButton.setAttribute("disabled", true);
+    }
+    if (skill["technique"] >= skill["strength"] - 1) {
+        this._practiseButton.setAttribute("disabled", true);
+    }
+    if (skill["strategy"] >= skill["technique"] - 1) {
+        this._studyButton.setAttribute("disabled", true);
+    }
+    if (skill["perfection"] >= skill["strategy"] - 1) {
+        this._improveButton.setAttribute("disabled", true);
+    }
+    if (skill["focus"] >= skill["perfection"] - 1) {
+        this._focusButton.setAttribute("disabled", true);
     }
 };
 

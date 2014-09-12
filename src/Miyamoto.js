@@ -446,7 +446,16 @@ Miyamoto.prototype._train = function() {
 };
 
 Miyamoto.prototype._practise = function() {
+    this._practising += GODAI_INCREASE_PER_Q;
+    this._fatigue += PRACTISING_COST_PER_Q;
     
+    if (this._practising >= 99) {
+        this._practising = 0;
+        this._skill["technique"] += 1;
+        this._scene.getMessageWindow().add("Miyamoto has now " + this._skill["technique"] + " point(s) of technique");
+        this._scene.getUI().checkIfTrainButtonsShouldBeEnabled(this._skill);
+        this.changeStateTo(MEDITATE);
+    }
 };
 
 Miyamoto.prototype._study = function() {
