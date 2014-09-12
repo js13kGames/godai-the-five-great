@@ -165,7 +165,7 @@ function Miyamoto(scene) {
     this._hungerPain = 0;
     
     this._life = 99;
-    this._spirit = 90;
+    this._spirit = 25;
     this._hunger = 0;
     this._fatigue = 0;
     this._supplies = 4;
@@ -296,6 +296,10 @@ Miyamoto.prototype._hunt = function(isStealth) {
 
 Miyamoto.prototype.battleDecreasesLife = function(dmg) {
     this._life -= dmg;
+    
+    if (this._life <= 0) {
+        this._life = 0;
+    }
 };
 
 Miyamoto.prototype._hungerPainDecreasesLife = function() {
@@ -342,7 +346,7 @@ Miyamoto.prototype._feed = function(isHealthDiet) {
 Miyamoto.prototype._checkSpiritLimits = function() {
     if (this._spirit >= 99) {
         this._scene.getMessageWindow().add("Spiritual level gained!");
-        this._spirit = 90;
+        this._spirit = 0;
         this._scene.pause();
         this._scene.hideUI();
         this._scene.showSpiritualImprovementSelection();

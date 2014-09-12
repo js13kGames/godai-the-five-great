@@ -11,6 +11,7 @@ function PlayScene(game) {
     this._spiritUI = new SpiritUI(this);
     this._encounters = new EncounterList(this);
     this._battleWindow = new BattleWindow(this);
+    this._deathWindow = new DeathWindow(this);
 }
 
 PlayScene.prototype._checkEncounters = function() {
@@ -22,11 +23,10 @@ PlayScene.prototype._checkGameOver = function() {
         this._game.setScene(new WinScene(this._game));
     }
     
-    if (this._time.getDaysLeft() <= 0) {
-        this._game.setScene(new StartupScene(this._game));
-    }
-    if (this._miyamoto.getLife() <= 0) {
-        this._game.setScene(new StartupScene(this._game));
+    if (this._time.getDaysLeft() <= 0 || this._miyamoto.getLife() <= 0) {
+        this.pause();
+        this.hideUI();
+        this.showDeathWindow();
     }
 };
 
@@ -42,16 +42,24 @@ PlayScene.prototype.getMessageWindow = function() {
     return this._messageWindow;
 };
 
+PlayScene.prototype.showDeathWindow = function() {
+    this._deathWindow.show(this);
+};
+
 PlayScene.prototype.getUI = function() {
     return this._ui;
 };
 
-PlayScene.prototype.keyPressed = function(keys) {
-    
+PlayScene.prototype.keyPressed = function(key) {
+    if (this._deathWindow.isVisible() && key == KEY_ENTER) {
+        this._game.setScene(new StartupScene(this._game));
+    }
 };
 
 PlayScene.prototype.mouseClick = function() {
-    
+    if (this._deathWindow.isVisible()) {
+        this._game.setScene(new StartupScene(this._game));
+    }
 };
 
 PlayScene.prototype.showSpiritualImprovementSelection = function() {
@@ -88,6 +96,7 @@ PlayScene.prototype.draw = function(ctx) {
     
     this._messageWindow.draw(ctx);
     this._battleWindow.draw(ctx);
+    this._deathWindow.draw(ctx);
 };
 
 PlayScene.prototype.tick = function() {
@@ -101,5 +110,6 @@ PlayScene.prototype.tick = function() {
         this._checkGameOver();
     } else {
         this._battleWindow.tick();
+        this._deathWindow.tick();
     }
 };

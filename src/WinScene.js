@@ -6,12 +6,12 @@ function WinScene(game) {
 
 WinScene.prototype.keyPressed = function (key) {
     if (key == KEY_ENTER) {
-        this._game.setScene(new PlayScene(this._game));
+        this._game.setScene(new StartupScene(this._game));
     }
 };
 
 WinScene.prototype.mouseClick = function() {
-    this._game.setScene(new PlayScene(this._game));
+    this._game.setScene(new StartupScene(this._game));
 };
 
 WinScene.prototype._clearCanvas = function(ctx) {
@@ -22,7 +22,7 @@ WinScene.prototype._clearCanvas = function(ctx) {
 WinScene.prototype._drawText = function (ctx) {
     ctx.fillStyle = "rgb(26, 26, 26)";
     ctx.font = "bold 14px Verdana, Geneva, sans-serif";
-    var text = "HAS GANADO. PULSA ENTER";
+    var text = "YOU WIN.";
     var textWidth = ctx.measureText(text).width;
     var x = ctx.canvas.width/2 - textWidth/2;
     var y = ctx.canvas.height/2;
