@@ -172,7 +172,10 @@ function Miyamoto(scene) {
     
     this._skill = {
         "strength": 3,
-        "technique": 1
+        "technique": 1,
+        "strategy": 0,
+        "perfection": 0,
+        "focus": 0
     };
 }
 
@@ -454,15 +457,42 @@ Miyamoto.prototype._practise = function() {
 };
 
 Miyamoto.prototype._study = function() {
+    this._studing += GODAI_INCREASE_PER_Q;
+    this._fatigue += STUDING_COST_PER_Q;
     
+    if (this._studing >= 99) {
+        this._studing = 0;
+        this._skill["strategy"] += 1;
+        this._scene.getMessageWindow().add("Miyamoto has now " + this._skill["strategy"] + " point(s) of strategy");
+        this._scene.getUI().checkIfTrainButtonsShouldBeEnabled(this._skill);
+        this.changeStateTo(RESTING);
+    }
 };
 
 Miyamoto.prototype._improve = function() {
+    this._improving += GODAI_INCREASE_PER_Q;
+    this._fatigue += IMPROVING_COST_PER_Q;
     
+    if (this._improving >= 99) {
+        this._improving = 0;
+        this._skill["perfection"] += 1;
+        this._scene.getMessageWindow().add("Miyamoto has now " + this._skill["perfection"] + " point(s) of perfection");
+        this._scene.getUI().checkIfTrainButtonsShouldBeEnabled(this._skill);
+        this.changeStateTo(MEDITATE);
+    }
 };
 
 Miyamoto.prototype._focus = function() {
+    this._focusing += GODAI_INCREASE_PER_Q;
+    this._fatigue += FOCUSING_COST_PER_Q;
     
+    if (this._focusing >= 99) {
+        this._focusing = 0;
+        this._skill["focus"] += 1;
+        this._scene.getMessageWindow().add("Miyamoto has now " + this._skill["focus"] + " point of correct mindset");
+        this._scene.getUI().checkIfTrainButtonsShouldBeEnabled(this._skill);
+        this.changeStateTo(WALKING);
+    }
 };
 
 Miyamoto.prototype._heal = function() {
