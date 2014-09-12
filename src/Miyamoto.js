@@ -294,6 +294,10 @@ Miyamoto.prototype._hunt = function(isStealth) {
     }
 };
 
+Miyamoto.prototype.battleDecreasesLife = function(dmg) {
+    this._life -= dmg;
+};
+
 Miyamoto.prototype._hungerPainDecreasesLife = function() {
     this._hungerPain += this._hunger - 80;
     if (this._hungerPain >= HUNGER_PAIN_TOLERANCE) {

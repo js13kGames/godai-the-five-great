@@ -57,8 +57,10 @@ BattleWindow.prototype._drawWindowBackground = function(ctx) {
             
         if (this._fadeBG <= 0) {
             this._initialize();
-            
             this.hide();
+            
+            
+            this._scene.getMiyamoto().battleDecreasesLife(this._encounterResult.damage);
             this._scene.play();
             this._scene.showUI();
         }
@@ -193,6 +195,8 @@ BattleWindow.prototype._calculateEncounterResult = function() {
     } else {
         result.text = this._encounter.name + " has defeated Miyamoto Musashi";
     }
+    
+    result.damage = damageSuffered;
     
     return result;
 };
