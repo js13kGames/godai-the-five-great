@@ -4,7 +4,7 @@ var CANVAS_HEIGHT = 300;
 function GameRunner() {
     this._ctx = this._createCanvasContext();
     this._fpsCounter = new FPSCounter();
-    this._game = new Game();
+    this._game = new Game(this._ctx);
     this._keyboard = new Keyboard(this._game);
     this._mouse = new Mouse(this._game);
 }

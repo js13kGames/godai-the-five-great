@@ -67,7 +67,6 @@ PlayScene.prototype.showSpiritualImprovementSelection = function() {
 };
 
 PlayScene.prototype.launchBattleWindow = function(encounter) {
-    console.log(encounter);
     this.pause();
     this._ui.hide();
     this._battleWindow.launchEncounter(encounter);
@@ -90,9 +89,9 @@ PlayScene.prototype.play = function() {
 };
 
 PlayScene.prototype.draw = function(ctx) {
+    this._miyamoto.draw(ctx);
     this._time.draw(ctx);
     this._distance.draw(ctx);
-    this._miyamoto.draw(ctx);
     
     this._messageWindow.draw(ctx);
     this._battleWindow.draw(ctx);

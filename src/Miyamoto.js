@@ -177,6 +177,8 @@ function Miyamoto(scene) {
         "perfection": 0,
         "focus": 0
     };
+    
+    this._spriteMiyamoto = new SpriteMiyamoto();
 }
 
 Miyamoto.prototype.getState = function() {
@@ -208,7 +210,7 @@ Miyamoto.prototype.changeStateTo = function(state) {
             return true;
         }
     }
-    console.log("Miyamoto state not changed!");
+    
     return false;
 };
 
@@ -242,7 +244,7 @@ Miyamoto.prototype._move = function(method) {
             break;
             
         default:
-            console.log("Miyamoto doesn't know how to move!");
+            
             break;
     }
 };
@@ -398,7 +400,7 @@ Miyamoto.prototype._getPrettyFatigue = function() {
             result = 4;
             break;
         default:
-            console.log("Miyamoto default fatigue", this._fatigue);
+            
             break;
     }
     return fatigueStates[result];
@@ -432,7 +434,7 @@ Miyamoto.prototype._getPrettyHunger = function() {
             result = 4;
             break;
         default:
-            console.log("Miyamoto default hunger", this._hunger);
+            
             break;
     }
     return hungerStates[result];
@@ -514,6 +516,8 @@ Miyamoto.prototype._heal = function() {
 };
 
 Miyamoto.prototype.tick = function() {
+    this._spriteMiyamoto.tick();
+        
     switch (this._currentState.name) {
         case RESTING:
             this._rest(false);
@@ -585,7 +589,7 @@ Miyamoto.prototype.tick = function() {
             break;
             
         default:
-            console.log("Miyamoto default state", this._currentState);
+            
             break;
     }
     
@@ -597,6 +601,7 @@ Miyamoto.prototype.tick = function() {
 };
 
 Miyamoto.prototype.draw = function(ctx) {
+    this._spriteMiyamoto.draw(ctx);
     this._drawStatus(ctx);
 };
 

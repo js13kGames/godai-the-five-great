@@ -155,7 +155,7 @@ BattleWindow.prototype._calculateSwordsmanPower = function(skill) {
                 break;
                 
             default:
-                console.log("Can't calculate Swordsman power correctly!");
+                
                 break;
         }
     }

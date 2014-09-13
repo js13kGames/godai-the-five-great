@@ -1,4 +1,6 @@
-function Game() {
+function Game(ctx) {
+    this._ctx = ctx;
+    
     this._scene = new StartupScene(this);
 }
 

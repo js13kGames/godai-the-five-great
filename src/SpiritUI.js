@@ -137,7 +137,6 @@ SpiritUI.prototype._shouldPowerBeDisabled = function(power) {
             break;
             
         default:
-            console.log("Default should power be disabled");
             return false;
             break;
     }

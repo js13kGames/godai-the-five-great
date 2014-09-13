@@ -154,7 +154,7 @@ UI.prototype.addNewOption = function(power) {
             break;
             
         default:
-            console.log("Can't add option to UI!");
+            
             break;
     }
 };
