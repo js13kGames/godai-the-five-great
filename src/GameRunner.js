@@ -3,7 +3,6 @@ var CANVAS_HEIGHT = 300;
 
 function GameRunner() {
     this._ctx = this._createCanvasContext();
-    this._fpsCounter = new FPSCounter();
     this._game = new Game(this._ctx);
     this._keyboard = new Keyboard(this._game);
     this._mouse = new Mouse(this._game);
@@ -26,16 +25,12 @@ GameRunner.prototype._clearCanvas = function() {
 };
 
 GameRunner.prototype._gameLoop = function() {
-    this._fpsCounter.begin();
-    
     this._keyboard.handleKeypresses();
     this._mouse.handleMouseclicks();
     this._game.tick();
     
     this._clearCanvas();
     this._game.draw(this._ctx);
-    
-    this._fpsCounter.end();
 };
 
 GameRunner.prototype.run = function() {

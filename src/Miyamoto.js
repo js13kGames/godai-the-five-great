@@ -614,19 +614,19 @@ Miyamoto.prototype._drawStatus = function(ctx) {
     var x = 20;
     var y = ctx.canvas.height - 45;
     ctx.fillText(text, x, y);
-    
+    /*
     text = "spirit: " + this._spirit.toFixed(1);
     x = 20;
     y = ctx.canvas.height - 25;
     ctx.fillText(text, x, y);
-    
-    text = "fatigue: " + this._getPrettyFatigue() + " (" + this._fatigue.toFixed(1) + ")";
+    */
+    text = "fatigue: " + this._getPrettyFatigue(); // + " (" + this._fatigue.toFixed(1) + ")";
     var textWidth = ctx.measureText(text).width;
     x = ctx.canvas.width - 20 - textWidth;
     y = ctx.canvas.height - 45;
     ctx.fillText(text, x, y);
     
-    text = "hunger: " + this._getPrettyHunger() + " (" + this._hunger.toFixed(2) + ")";
+    text = "hunger: " + this._getPrettyHunger(); // + " (" + this._hunger.toFixed(2) + ")";
     var textWidth = ctx.measureText(text).width;
     x = ctx.canvas.width - 20 - textWidth;
     y = ctx.canvas.height - 25;
@@ -637,10 +637,11 @@ Miyamoto.prototype._drawStatus = function(ctx) {
     x = ctx.canvas.width / 2 - textWidth / 2;
     y = ctx.canvas.height - 5;
     ctx.fillText(text, x, y);
-    
+    /*
     text = "cth: " + this._chanceToHuntSomething.toFixed(2);
     var textWidth = ctx.measureText(text).width;
     x = ctx.canvas.width - 50 - textWidth / 2;
     y = ctx.canvas.height - 5;
     ctx.fillText(text, x, y);
+    */
 };
